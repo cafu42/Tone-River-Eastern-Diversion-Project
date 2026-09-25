@@ -28,7 +28,7 @@
   --accent:#b8462b;
   --accent-soft:rgba(184,70,43,.18);
   --label:#4a463f;
-  --flood:#7f9db0;--flood-ink:#3d5a70;
+  --flood:#7f9db0;--flood-ink:#3d5a70;--made:#efe3c0;--land-ink:#8a6a2a;
   --serif:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
   --sans:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
 }
@@ -36,13 +36,13 @@
   :root:not([data-theme="light"]){
     --bg:#1d1c19;--panel:#292824;--ink:#ebe7df;--ink-2:#b5afa4;--line:#3d3b35;
     --sea:#3b5a6b;--sea-deep:#2f4b5b;--low:#3f4a34;--terrace:#5c4f36;--terrace-hi:#6f5c39;--mtn:#4a4640;
-    --river:#7fb6dc;--river-trib:#6a9cbd;--river-old:#6c675f;--accent:#e0704f;--accent-soft:rgba(224,112,79,.22);--label:#c9c3b7;--flood:#557a94;--flood-ink:#9fc3dc;
+    --river:#7fb6dc;--river-trib:#6a9cbd;--river-old:#6c675f;--accent:#e0704f;--accent-soft:rgba(224,112,79,.22);--label:#c9c3b7;--flood:#557a94;--flood-ink:#9fc3dc;--made:#6b5d3d;--land-ink:#d8b56a;
   }
 }
 :root[data-theme="dark"]{
   --bg:#1d1c19;--panel:#292824;--ink:#ebe7df;--ink-2:#b5afa4;--line:#3d3b35;
   --sea:#3b5a6b;--sea-deep:#2f4b5b;--low:#3f4a34;--terrace:#5c4f36;--terrace-hi:#6f5c39;--mtn:#4a4640;
-  --river:#7fb6dc;--river-trib:#6a9cbd;--river-old:#6c675f;--accent:#e0704f;--accent-soft:rgba(224,112,79,.22);--label:#c9c3b7;--flood:#557a94;--flood-ink:#9fc3dc;
+  --river:#7fb6dc;--river-trib:#6a9cbd;--river-old:#6c675f;--accent:#e0704f;--accent-soft:rgba(224,112,79,.22);--label:#c9c3b7;--flood:#557a94;--flood-ink:#9fc3dc;--made:#6b5d3d;--land-ink:#d8b56a;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:inherit}
@@ -69,7 +69,7 @@ svg.map{display:block;width:100%;height:auto;border-radius:6px;background:var(--
   .layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(360px,1fr);gap:0 24px;padding:0 20px 0 12px;align-items:start}
   .col-left{position:sticky;top:0;height:100svh;display:flex;flex-direction:column}
   .col-left .map-wrap{position:static;max-width:none;margin:0;padding:4px 0 6px;flex:1;display:flex;flex-direction:column;justify-content:flex-start}
-  .map-box{width:min(100%, calc((100svh - 230px) * 600 / 440))}
+  .map-box{width:min(100%, calc((100svh - 310px) * 600 / 440))}
   .col-right{padding-top:4px}
   .col-right .card{max-width:none;margin:4px 0 0;border-radius:10px 10px 0 0;min-height:auto}
   .col-right .legend,.col-right footer{max-width:none;margin:0}
@@ -127,6 +127,7 @@ svg.map{display:block;width:100%;height:auto;border-radius:6px;background:var(--
 .progress-rail{position:absolute;left:8px;right:8px;bottom:6px;height:3px;border-radius:2px;background:transparent;pointer-events:none}
 .progress{height:100%;width:0;background:var(--accent);border-radius:2px;opacity:0;transition:opacity .3s}
 body.playing .progress{opacity:.9}
+@media (max-width:600px){.opts{right:8px!important;bottom:8px!important;gap:4px!important;padding:3px 4px!important}.opts label{font-size:.62rem!important}.opts select{font-size:.66rem!important}.opts button{padding:4px 8px!important;font-size:.7rem!important}}
 .opts{position:absolute;right:14px;bottom:12px;z-index:6;display:flex;gap:8px;align-items:center;padding:4px 6px;border-radius:8px;background:color-mix(in srgb,var(--panel) 90%,transparent);box-shadow:0 1px 6px rgba(0,0,0,.15)}
 .opts label{font-size:.72rem;color:var(--ink-2)}
 .opts button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:6px;padding:6px 12px;font-size:.82rem;font-weight:500;cursor:pointer;font-family:var(--sans);white-space:nowrap}
@@ -139,6 +140,43 @@ body.playing .opts:hover{opacity:1}
 .opts label{font-size:.72rem;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;cursor:pointer}
 .opts input{accent-color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.banner{transition:none}}
+/* 土地造成レイヤー */
+.land-el{opacity:0;transition:opacity .7s}
+.land-el.on{opacity:1}
+.land-el .made{fill:var(--made);stroke:var(--land-ink);stroke-width:.6;stroke-dasharray:1.6 1.2}
+.land-el .hatch{fill:url(#hatch);opacity:.55}
+.land-el.now .made{stroke:var(--accent);stroke-width:1.4;stroke-dasharray:none}
+.land-el .ldcanal{fill:none;stroke:var(--river);stroke-width:1.3;stroke-dasharray:3 2}
+.land-el.now .ldcanal{stroke:var(--accent)}
+.land-el text{font-size:7.5px;fill:var(--land-ink);stroke:var(--low);stroke-width:2.2px;paint-order:stroke}
+.land-off{transition:opacity .7s}
+#lens{opacity:0;transition:opacity .7s;pointer-events:none}
+#lens.on{opacity:1}
+#lens text{font-size:6.2px;fill:var(--label);stroke:var(--low);stroke-width:1.8px;paint-order:stroke}
+#lens .lt{font-size:6.8px;font-weight:500;fill:var(--ink)}
+#lens .newriver{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round}
+#lens .oldriver{fill:none;stroke:var(--river-old);stroke-width:1.6;stroke-dasharray:2 1.6}
+#lens .river{fill:none;stroke:var(--river);stroke-width:3}
+#lens.on .newriver{stroke-dasharray:1 1;animation:draw 1.4s .4s ease-out both}
+/* テーマ切替チップ */
+.chips{display:flex;gap:6px;flex-wrap:wrap;padding:2px 6px 0}
+.chip{font-size:.72rem;padding:3px 9px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink-2);cursor:pointer;font-family:var(--sans)}
+.chip.on{background:var(--panel);color:var(--ink);border-color:var(--ink-2)}
+.chip i{font-style:normal;margin-right:3px}
+.chip[data-t="step"] i{color:var(--accent)}.chip[data-t="flood"] i{color:var(--flood-ink)}.chip[data-t="land"] i{color:var(--land-ink)}
+.timeline button.ld{border-radius:2px;width:15px;height:15px;top:5.5px}
+.timeline button.ld.done{background:var(--land-ink)}
+.timeline button.ld[aria-current="true"]{background:var(--land-ink);width:19px;height:19px;top:3.5px;animation:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--land-ink) 30%,transparent)}
+.card.land .step-head .year{color:var(--land-ink)}
+.card.land .step-head{border-bottom-color:var(--land-ink)}
+header.land h1 .y{color:var(--land-ink)}
+.links button.to-land{border-color:var(--land-ink);color:var(--land-ink)}
+.mat{margin-top:14px;padding:10px 12px;border:1px solid var(--line);border-radius:8px}
+.mat h3{margin:0 0 6px;font-size:.85rem;font-weight:500;color:var(--ink-2)}
+.mat ul{margin:0;padding:0;list-style:none}
+.mat li{display:grid;grid-template-columns:5.6em 1fr;gap:8px;font-size:.84rem;padding:3px 0;border-top:1px dashed var(--line)}
+.mat li:first-child{border-top:none}
+.mat li b{font-weight:500;color:var(--land-ink)}
 .tl-label{font-size:.7rem;color:var(--ink-2);margin:2px 6px 0;font-family:var(--serif)}
 .tl-label.two{margin-top:2px}
 .timeline button{background:var(--line);transition:background .4s,transform .4s,width .3s,height .3s,top .3s}
@@ -215,6 +253,10 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
 <svg class="map" viewBox="0 0 600 440" role="img" aria-labelledby="mapTitle">
   <title id="mapTitle">関東平野の模式地形図と利根川水系の変化</title>
   <!-- 低地（背景） -->
+  <defs>
+    <pattern id="hatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="4" style="stroke:var(--land-ink)" stroke-width=".8"/></pattern>
+    <clipPath id="lensclip"><circle cx="0" cy="0" r="60"/></clipPath>
+  </defs>
   <rect x="0" y="0" width="600" height="440" fill="var(--low)"/>
   <!-- 台地 -->
   <g id="terraces" fill="var(--terrace)" stroke="none">
@@ -253,12 +295,32 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
     <text class="sea" x="482" y="252" style="font-size:7.5px">北浦</text>
   </g>
   <!-- 印旛沼・手賀沼 -->
-  <ellipse cx="360" cy="315" rx="16" ry="6" fill="var(--sea)"/>
+  <ellipse class="land-off" data-until="l1946" cx="360" cy="315" rx="16" ry="6" fill="var(--sea)"/>
   <ellipse cx="308" cy="276" rx="12" ry="4" fill="var(--sea)"/>
   <!-- 江戸湾・太平洋 -->
   <path fill="var(--sea-deep)" d="M180 440 L200 400 L216 364 L236 342 L272 340 L296 332 L330 372 L326 440 Z"/>
   <path fill="var(--sea-deep)" d="M549 322 L600 300 L600 440 L470 440 L520 380 Z"/>
 
+  <!-- 土地造成（埋立・干拓） -->
+  <g id="land">
+    <ellipse class="land-off" data-until="l1728" cx="200" cy="262" rx="3.2" ry="8" transform="rotate(-18 200 262)" fill="var(--sea)"/>
+    <g class="land-el" data-land="l1596"><path class="made" d="M236 343 L270 340 L272 346 L252 350 L237 350 Z"/><path class="hatch" d="M236 343 L270 340 L272 346 L252 350 L237 350 Z"/></g>
+    <g class="land-el" data-land="l1728">
+      <ellipse class="made" cx="200" cy="262" rx="3.2" ry="8" transform="rotate(-18 200 262)"/>
+      <path class="ldcanal" d="M154 157 C158 182 170 206 184 226 C191 238 196 248 199 255"/>
+      <text x="206" y="266">見沼</text>
+    </g>
+    <g class="land-el" data-land="l1946">
+      <ellipse class="made" cx="360" cy="315" rx="16" ry="6"/><ellipse class="hatch" cx="360" cy="315" rx="16" ry="6"/>
+      <ellipse cx="371" cy="310" rx="6" ry="3.2" fill="var(--sea)"/><ellipse cx="349" cy="318.5" rx="6.5" ry="3" fill="var(--sea)"/>
+    </g>
+    <g class="land-el" data-land="l1957">
+      <path class="made" d="M237 350 L252 350 L272 346 L274 356 L256 364 L234 362 Z"/><path class="hatch" d="M237 350 L252 350 L272 346 L274 356 L256 364 L234 362 Z"/>
+      <path class="made" d="M273 341 L296 334 L326 371 L322 440 L313 440 L317 375 L294 345 L275 351 Z"/><path class="hatch" d="M273 341 L296 334 L326 371 L322 440 L313 440 L317 375 L294 345 L275 351 Z"/>
+      <path class="made" d="M216 366 L224 371 L207 405 L190 440 L182 440 L200 402 Z"/><path class="hatch" d="M216 366 L224 371 L207 405 L190 440 L182 440 L200 402 Z"/>
+      <text x="300" y="364">京葉臨海</text><text x="244" y="376">東京港</text>
+    </g>
+  </g>
   <!-- 河川区間 -->
   <g id="rivers" fill="none">
     <path class="seg" data-id="tone_upper" pathLength="1" d="M0 112 C40 120 90 128 114 137 C136 145 152 150 165 155"/>
@@ -348,8 +410,42 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
     <text x="150" y="246" style="font-size:8px;fill:#7a6a48;stroke:none">大宮台地</text>
     <text x="360" y="360" style="font-size:8px;fill:#7a6a48;stroke:none">下総台地</text>
     <text x="90" y="330" style="font-size:8px;fill:#7a6a48;stroke:none">武蔵野台地</text>
-    <text class="sea" x="236" y="410">江 戸 湾</text>
+    <text class="sea" id="bayname" x="236" y="410">江 戸 湾</text>
     <text class="sea" x="546" y="426">太 平 洋</text>
+  </g>
+  <!-- 拡大ルーペ（神田川） -->
+  <g id="lens">
+    <line x1="172" y1="338" x2="220" y2="345" stroke="var(--ink)" stroke-width=".8" stroke-dasharray="2 2"/>
+    <circle cx="227" cy="346" r="7" fill="none" stroke="var(--ink)" stroke-width="1"/>
+    <g transform="translate(100 336) scale(1.2)">
+      <g clip-path="url(#lensclip)">
+        <circle r="60" fill="var(--low)"/>
+        <path fill="var(--terrace)" d="M-60 -60 L16 -60 L20 -38 L14 -6 L-2 6 L-20 14 L-60 30 Z"/>
+        <path fill="var(--low)" d="M-6 -25.5 L22 -25.5 L22 -18.5 L-6 -18.5 Z"/>
+        <path fill="var(--sea)" d="M-60 60 L-60 44 L-20 40 L10 44 L60 38 L60 60 Z"/>
+        <path fill="var(--made)" stroke="var(--land-ink)" stroke-width=".6" stroke-dasharray="1.6 1.2" d="M-26 42 L-18 14 L-8 6 L2 12 L6 32 L10 44 Z"/>
+        <path fill="url(#hatch)" opacity=".55" d="M-26 42 L-18 14 L-8 6 L2 12 L6 32 L10 44 Z"/>
+        <path class="river" d="M44 -60 C45 -30 46 0 46 42"/>
+        <path class="oldriver" d="M-60 -24 L-6 -22 C-4 -10 -6 2 -8 8"/>
+        <path class="river" style="stroke-width:2.2" d="M-60 -24 L-6 -22"/>
+        <path class="newriver" pathLength="1" d="M-6 -22 L20 -22 C30 -22 38 -22 45 -22"/>
+        <rect x="-26" y="-6" width="7" height="7" fill="var(--ink)"/>
+        <path fill="none" stroke="var(--land-ink)" stroke-width="1" stroke-dasharray="2 1.5" d="M8 -12 C8 0 2 10 -4 18"/>
+        <text x="-36" y="-36">本郷台地</text>
+        <text x="-2" y="-30">湯島台</text>
+        <text x="-2" y="-9">駿河台</text>
+        <text class="lt" x="16" y="-26">神田川</text>
+        <text x="-44" y="-26">平川</text>
+        <text x="-34" y="-10">江戸城</text>
+        <text x="-22" y="30">日比谷入江</text>
+        <text x="-22" y="37" style="font-size:5.2px">（埋立・範囲は諸説）</text>
+        <text x="24" y="30">隅田川</text>
+        <text x="-6" y="53">江戸湾</text>
+        <text x="8" y="6" style="font-size:5.2px;fill:var(--land-ink)">崩した土→</text>
+      </g>
+      <circle r="60" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+      <text class="lt" x="-34" y="70">江戸城周辺の拡大（模式）</text>
+    </g>
   </g>
 </svg>
   <div class="progress-rail"><div class="progress" id="progress"></div></div>
@@ -357,6 +453,7 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
 </div>
 
   <div class="controls">
+  <div class="chips" id="chips"><button class="chip on" data-t="step"><i>●</i>工事</button><button class="chip on" data-t="flood"><i>▲</i>洪水</button><button class="chip on" data-t="land"><i>■</i>土地（埋立・干拓・開削）</button></div>
   <div class="tl-label">第1部　河道の時代 — 川をどこへ流すか</div>
   <div class="timeline" id="timeline"><div class="rail"></div><div class="rail-fill"></div></div>
   <div class="tl-label two">第2部　制御の時代 — 流した水をどう操るか</div>
@@ -395,6 +492,20 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
       <text id="bed-label" x="100" y="88"></text>
     </svg>
   </div>
+  <div class="section" id="kanda-section" hidden>
+    <h3>お茶の水付近 南北断面（模式・高さは誇張）— 台地を掘り割った人工の谷</h3>
+    <svg viewBox="0 0 320 96" aria-hidden="true">
+      <path fill="var(--terrace-hi)" d="M0 96 L0 32 L128 30 L138 72 L182 72 L192 30 L320 32 L320 96 Z"/>
+      <rect x="140" y="64" width="40" height="8" fill="var(--sea)"/>
+      <text x="10" y="24">駿河台（南）</text><text x="240" y="24">湯島台（北）</text>
+      <text x="146" y="60">神田川</text>
+      <text x="80" y="88">もとは一続きの本郷台地（神田山）</text>
+    </svg>
+  </div>
+  <div class="mat" id="mat" hidden>
+    <h3>何で埋めたか（東京港の例）</h3>
+    <ul id="mat-list"></ul>
+  </div>
   <div class="depth" id="depth" hidden>
     <h3>記録に残る浸水の深さ</h3>
     <div id="depth-rows"></div>
@@ -420,6 +531,7 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
   <span><b class="o"></b>旧流路・締切後</span>
   <span><b class="c"></b>このステップで変わった区間</span>
   <span><i style="background:var(--flood)"></i>洪水の氾濫流・浸水（概略）</span>
+  <span><i style="background:var(--made);outline:1px dashed var(--land-ink)"></i>埋立・干拓でできた土地（概略）</span>
   <span><svg width="14" height="12" viewBox="-6 -6 12 12" style="vertical-align:middle"><rect x="-4.5" y="-4.5" width="9" height="9" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="-4.5" y1="0" x2="4.5" y2="0" stroke="currentColor" stroke-width="1.4"/></svg>水門・堰・放水路</span>
   <small>標高帯・河道・香取海の範囲はいずれも概略。位置関係を伝えるための模式図で、縮尺や細部は正確ではない。</small>
 </div>
@@ -490,7 +602,7 @@ const STEPS=[
   terrain:"かつて香取海として一つだった水域を、水門で「川」と「湖」に分ける。東遷が始めた香取海の陸化を、制度的に完了させた施設ともいえる。",
   facility:"止めるもの：海からの塩水、利根川からの洪水の逆流。流すもの：霞ヶ浦の水を利根川へ（水位を見ながら放流）。",
   changes:{},highlight:[],marks:["kawamata","asama","kuge","mitsukaido"],water:"modern",bed:3,gates:["iwabuchi","sekiyado","hitachi"],gateNow:["hitachi"]},
- {part:2,summary:"堰で利根の水を荒川へ、東京の水道に",year:"1968",era:"昭和43年",title:"利根大堰・武蔵水路",
+ {part:2,id:"s1968",rel:["l1728"],summary:"堰で利根の水を荒川へ、東京の水道に",year:"1968",era:"昭和43年",title:"利根大堰・武蔵水路",
   works:"川俣締切のすぐ上流、行田・千代田に全長約500m・12門の可動堰が完成し、翌1969年から運用。取水した水は見沼代用水・埼玉用水、そして武蔵水路へ分けられる。武蔵水路は行田から南へ流れて鴻巣で荒川に注ぎ、利根川の水を東京の水道へ送る。",
   aim:"高度成長期の首都圏の水不足。1964年の東京オリンピック前の「東京砂漠」を機に、利根川から荒川へ水を移す導水路が急がれた。",
   terrain:"1594年に会の川を締め切った地点のほぼ隣で、今度は水を西へ、荒川へ戻している。東遷で分けた利根川と荒川を、人工水路で再びつなぐ皮肉な構図。",
@@ -574,7 +686,7 @@ const FLOODS=[
   terrain:"本川は守れても、水は低地のどこかへ出る。1947年と同じ構図が、施設で守られた本川の周縁部で起きた。",
   breaches:[[172,112],[130,242],[124,236]],flows:[],reach:[{x:150,y:106,l:"秋山川（佐野）"},{x:104,y:252,l:"越辺川・都幾川"}],gatesOn:["gaikaku","sekiyado","iwabuchi"],depth:[],
   src:"国土交通省「令和元年台風第19号等による被害状況」、気象庁危険度分布資料（数値は概数）"},
- {id:"f2026",summary:"北印旛沼の堤防が決壊、干拓地が沼に戻る",part:2,after_end:true,year:"2026",era:"令和8年",title:"台風25号 — 北印旛沼の堤防決壊（進行中）",
+ {id:"f2026",rel:["l1946"],summary:"北印旛沼の堤防が決壊、干拓地が沼に戻る",part:2,after_end:true,year:"2026",era:"令和8年",title:"台風25号 — 北印旛沼の堤防決壊（進行中）",
   works:"9月22日、台風25号の豪雨で、千葉県が管理する北印旛沼の堤防が成田市船形干拓で約100m決壊。流入する農業排水路・角川の堤防も切れ、翌23日には印旛沼の水を利根川へ落とす長門川（栄町酒直）でも決壊が確認された。北印旛沼・長門川周辺で大規模な浸水が続き、23日に国土交通省がTEC-FORCEを派遣した。",
   aim:"浸水したのは「船形干拓」という地名のとおり、明治15年の地図では沼の水面だった場所。印旛沼は江戸時代に3度の掘割（干拓・排水）が試みられて挫折し、戦後の印旛沼開発事業でようやく水位が制御された経緯がある。",
   terrain:"印旛沼は東遷以前、香取海に連なる水域だった。利根川が本流になってからは洪水のたびに利根川の水が沼へ逆流し、沼尻の低地（八千代市平戸周辺）で水害が激化したことが記録されている。今回は沼そのものの堤が切れ、干拓地が水面に戻った。被害の全容は執筆時点（2026年9月24日）で確定しておらず、数字は県の速報に基づく。",
@@ -582,6 +694,35 @@ const FLOODS=[
   src:"千葉県「北印旛沼の堤防決壊について」（2026年9月23日更新）、朝日新聞（9月23日）、成田エリアガイド、印旛沼環境基金「印旛沼の歴史」"}
 ];
 
+// 土地の造成（埋立・干拓・開削）
+const LANDS=[
+ {id:"l1596",part:1,year:"1596〜",era:"慶長元年〜",title:"江東の埋め立て — 旧利根川の河口を陸に",summary:"運河を掘り、旧利根川河口の浅瀬を陸にする",
+  works:"江東方面の埋め立ては慶長元年（1596）から始まった。隅田川河口の東側、小名木川など運河の周りに広がる浅い海を、少しずつ陸にしていった。寛永年間（1624〜44）以降は隅田川河口の小島も少しずつ埋め立てられ、越中島一帯ができていった。",
+  aim:"城下町の造成。東京都港湾局は、江戸時代以来の埋立地は主に町づくりとごみの処分先として作られてきたと整理している。",
+  terrain:"東遷前、利根川の河口は今の墨田区北部にあり、江東一帯は砂州が点在する遠浅の海だった。江東の土地は、旧利根川が運んだ土砂の上に人が盛って作ったもの。利根川が東へ去ったあとも、ここは洪水に弱い低地のまま残る（1742年の寛保の洪水で本所・深川・亀戸の被害が最も大きかったのはこの一帯）。",
+  src:"国土交通省関東地方整備局 東京港湾事務所「埋立の変遷」、遠藤毅「東京都臨海域における埋立地造成の歴史」（地学雑誌113(6), 2004）"},
+ {id:"l1620",part:1,year:"1620",era:"元和6年",title:"神田山の開削 — お茶の水の人工の谷",summary:"台地を切り通し、平川を東の隅田川へ曲げる",lens:true,kanda:true,
+  works:"秀忠の命で、伊達政宗が牛込橋付近から和泉橋までの開削を担当。本郷台地の南端（神田山）を東西に切り通して湯島台と駿河台に分け、お茶の水に人工の谷をつくった。工事は数期にわたり、仙台藩が受け持った区間は万治4年（1661）に完成している。",
+  aim:"江戸湾へ南流していた平川などの流れを東へ曲げて隅田川に落とし、江戸城と下流の町を洪水から守る。この区間は江戸城の外堀工事の一部でもあった。",
+  terrain:"赤堀川が猿島台地を切って利根川を東へ流したのと同じく、台地を掘り割って水の行き先を変えた工事。なお神田山はこれ以前にも切り崩され、その土は日比谷入江の埋め立てに使われたとされる（入江の範囲・深さは詳細不明で、復元案は研究者により異なる）。",
+  src:"明治大学史資料センター、仙台市「神田川（飯田橋〜秋葉原）」、Wikipedia「神田川 (東京都)」、港区史 通史編 近世（上）「日比谷入江の姿」、港区史 自然編"},
+ {id:"l1728",part:1,year:"1728",era:"享保13年",title:"見沼干拓・見沼代用水",summary:"溜井を田に変え、水は利根川から60km引く",rel:["s1968"],
+  works:"見沼は寛永6年（1629）に伊奈忠治が八丁堤を築いて農業用の溜池（見沼溜井）にしていた。8代将軍吉宗の新田開発策で、井沢弥惣兵衛が享保12年（1727）9月に着手し、翌13年2月に溜井を干拓、代わりの用水を利根川から引いた。全長約60km、溜井は約1,200haの水田になり、幕末までに代用水の水で開かれた水田は約14,000haを超えた。享保16年（1731）には水位差約3mを閘門で越える見沼通船堀も造られた。同じ時期、井沢は手賀沼の干拓（千間堤の築造）も指導している。",
+  aim:"享保の改革の新田開発。溜池に頼らず、大河から直接水を引くことで広い水田を開く。",
+  terrain:"大宮台地の谷にあった沼を田に変え、東遷で東へ振った利根川の水を、再び南の埼玉低地へ引き戻した。この取水口は、240年後に利根大堰（1968）へ統合される。",
+  src:"埼玉県「見沼代用水」資料、日本河川協会「語る」No.214（千葉県立関宿城博物館 調査協力員レジュメ）"},
+ {id:"l1946",part:2,year:"1946–1969",era:"昭和21〜44年",title:"印旛沼開発 — 沼を二つに分けて水がめへ",summary:"沼を南北に二分し、半分を田、残りを水がめに",rel:["f2026"],
+  works:"1946年、食糧難を背景に国営印旛沼手賀沼干拓事業が始まる。京葉臨海部の埋め立て（1957年の五井・市原など）で工業用水の需要が急増したため計画は改訂を重ね、水資源開発公団へ移管、1969年3月に竣工した。沼の中央部が干拓されて北印旛沼と西印旛沼に二分され、捷水路で結ばれた。調整池約1,310ha、干拓地約934ha。沼の面積は開発前の約半分（11.55km²）になった。",
+  aim:"当初は水害防止と食糧増産。のちに京葉工業地帯や上水道の水源確保が主目的になった。",
+  terrain:"東遷後、利根川の洪水が逆流して水害に苦しんだ沼。印旛沼環境基金は、この事業で東遷から300年余の印旛沼の水害の歴史に終止符が打たれたと記している。その57年後の2026年、北印旛沼の堤防が決壊した。開発前の沼の面積は資料によって約20〜29km²と幅がある。",
+  src:"農林水産省関東農政局「印旛沼干拓土地改良事業」、水土の礎「千葉県 印旛沼干拓建設事業」、印旛沼環境基金「印旛沼の歴史」「沼と流域の状況」"},
+ {id:"l1957",part:2,year:"1957〜",era:"昭和32年〜",title:"東京湾の埋め立て — 海岸線が沖へ出る",summary:"京葉と東京港で埋立が急増、海が工場と港に",
+  works:"千葉県臨海部では1957年の五井・市原を皮切りに、幕張（1958）、市川（1959）、君津（1961）、千葉市生浜（1962）と埋め立てが続いた。東京港では1961年の改定港湾計画で約2,243haの埋立造成が始まり、13号地（台場・青海）、夢の島、14号地（有明）などができた。1965〜2012年の埋立面積は千葉県約110km²、神奈川県約49km²、東京都約38km²、合計約197km²にのぼる。",
+  aim:"重化学工業の用地、港湾・物流施設、空港、そしてごみの処分先。",
+  terrain:"東京港は水深2〜4mの遠浅の海で、かつては旧利根川の河口が開いていた。その浅さが大規模な埋め立てを可能にし、干潟など自然の海岸の多くが失われた。本図は神奈川側の大部分が範囲外で、埋立地の形も概略。",
+  materials:[["江戸時代","台地を崩した土・堀の掘削土（日比谷入江など）"],["明治","隅田川河口の航路浚渫の土砂（月島・芝浦など）"],["明治33年〜","ごみ（江東区塩浜・枝川など）"],["大正12年〜","関東大震災の瓦礫（豊洲など）"],["昭和","ごみ（夢の島＝14号地、潮見など。夢の島は約45ha・約1,034万t）"]],
+  src:"印旛沼環境基金「印旛沼の歴史」、東京港埋立のあゆみ、東京水産振興会「水産振興」636号（小荒井・中埜 2013 の集計を引用）、東京港湾事務所「埋立の変遷」、東京都港湾局「埋立地をつくる」「東京港のごみ埋立地盤の安定化調査について」"}
+];
 const segs={};document.querySelectorAll('.seg').forEach(p=>segs[p.dataset.id]=p);
 const marks={};document.querySelectorAll('.mark').forEach(p=>marks[p.dataset.mark]=p);
 // 工事の累積状態
@@ -592,14 +733,26 @@ STEPS.forEach((s,i)=>{cur=Object.assign({},cur,s.changes);states.push(Object.ass
 const ITEMS=[];
 const p1steps=STEPS.map((s,k)=>k).filter(k=>STEPS[k].part!==2);
 const p2steps=STEPS.map((s,k)=>k).filter(k=>STEPS[k].part===2);
-function yearNum(y){return parseInt(String(y).split(/[ \/]/)[0]);}
+function yearNum(y){return parseInt(String(y).split(/[ \/–〜-]/)[0]);}
 STEPS.forEach((s,k)=>ITEMS.push({type:"step",i:k,y:yearNum(s.year),part:s.part===2?2:1}));
 FLOODS.forEach((f,j)=>ITEMS.push({type:"flood",j:j,y:yearNum(f.year),part:f.part}));
+LANDS.forEach((l,k)=>ITEMS.push({type:"land",k:k,y:yearNum(l.year),part:l.part}));
 ITEMS.sort((a,b)=>a.y-b.y || (a.type==="flood"?-1:1));
 // 1928(第1部の締め)の直後に1924が来ないよう、第1部→第2部の順を保つ
 ITEMS.sort((a,b)=>a.part-b.part || a.y-b.y || (a.type==="flood"?-1:1));
 const byId={};STEPS.forEach((s,k)=>{if(s.id)byId[s.id]=ITEMS.findIndex(it=>it.type==="step"&&it.i===k);});
 FLOODS.forEach((f,j)=>byId[f.id]=ITEMS.findIndex(it=>it.type==="flood"&&it.j===j));
+LANDS.forEach((l,k)=>byId[l.id]=ITEMS.findIndex(it=>it.type==="land"&&it.k===k));
+function objOf(it){return it.type==="step"?STEPS[it.i]:it.type==="flood"?FLOODS[it.j]:LANDS[it.k];}
+const FILTER={step:true,flood:true,land:true};
+function vis(n){return FILTER[ITEMS[n].type];}
+function nextVis(n,d){for(let k=n+d;k>=0&&k<ITEMS.length;k+=d){if(vis(k))return k;}return -1;}
+function applyLand(n,nowId){
+  const on=new Set();for(let k=0;k<=n;k++){if(ITEMS[k].type==="land")on.add(LANDS[ITEMS[k].k].id);}
+  document.querySelectorAll('.land-el').forEach(g=>{g.classList.toggle('on',on.has(g.dataset.land));g.classList.toggle('now',g.dataset.land===nowId);});
+  document.querySelectorAll('.land-off').forEach(e=>{e.style.opacity=on.has(e.dataset.until)?0:1;});
+  $('lens').classList.toggle('on',!!(nowId&&LANDS.find(l=>l.id===nowId).lens));
+}
 function lastStepBefore(n){for(let k=n;k>=0;k--){if(ITEMS[k].type==="step")return ITEMS[k].i;}return 0;}
 
 let idx=0,prevIdx=0;
@@ -630,21 +783,24 @@ function drawFlood(f){
   (f.reach||[]).forEach(r=>h+=`<circle class="reach" cx="${r.x}" cy="${r.y}" r="2.6"/><text x="${r.x+5}" y="${r.y+3}">${r.l}</text>`);
   g.innerHTML=h;
 }
-function linkBtn(cls,label,target){const b=document.createElement('button');b.className=cls;b.textContent=label;b.addEventListener('click',()=>{idx=byId[target];render(idx,true);window.scrollTo({top:0,behavior:'smooth'});});return b;}
-function showBanner(obj,isFlood){
+function linkBtn(cls,label,target){const b=document.createElement('button');b.className=cls;b.textContent=label;b.addEventListener('click',()=>{idx=byId[target];if(!vis(idx)){FILTER[ITEMS[idx].type]=true;syncChips();rebuildTL();}render(idx,true);window.scrollTo({top:0,behavior:'smooth'});});return b;}
+function showBanner(obj,kind){
   const h=$('hdr');$('lead').textContent=obj.summary||"";
   h.classList.remove('show');
   requestAnimationFrame(()=>{
     $('h-year').textContent=String(obj.year);$('h-text').textContent=obj.title;$('h-sum').textContent=obj.summary||"";
-    h.classList.toggle('flood',!!isFlood);
+    h.classList.toggle('flood',kind==="flood");h.classList.toggle('land',kind==="land");
     void h.offsetWidth;h.classList.add('show');
   });
 }
 function render(n,anim){
   const it=ITEMS[n];const card=document.querySelector('.card');
   $('links').innerHTML="";$('flood').innerHTML="";
+  card.classList.remove('flood','land');$('kanda-section').hidden=true;$('mat').hidden=true;
+  applyLand(n,it.type==="land"?LANDS[it.k].id:null);
+  $('bayname').textContent=it.part===2?"東 京 湾":"江 戸 湾";
   if(it.type==="step"){
-    const s=STEPS[it.i];card.classList.remove('flood');
+    const s=STEPS[it.i];
     applyMap(it.i,s,anim&&n>prevIdx,true);
     $('year').textContent=s.year;$('era').textContent=s.era;$('title').textContent=s.title;
     $('dt-works').textContent="何が起きたか";$('dt-aim').textContent="目的・背景";$('dt-terrain').textContent="地形との関係";
@@ -655,7 +811,18 @@ function render(n,anim){
     if(s.cause&&byId[s.cause]!=null){const f=FLOODS.find(x=>x.id===s.cause);$('links').appendChild(linkBtn('to-flood',"きっかけになった洪水 ← "+f.year+" "+f.title,s.cause));}
     FLOODS.filter(f=>f.next===s.id).forEach(f=>{});
     $('src').textContent="";
-    showBanner(s,false);
+    showBanner(s,"step");
+  }else if(it.type==="land"){
+    const L=LANDS[it.k];card.classList.add('land');
+    const si=lastStepBefore(n);applyMap(si,STEPS[si],false,false);
+    $('year').textContent=L.year;$('era').textContent=L.era;$('title').textContent=L.title;
+    $('dt-works').textContent="何をしたか";$('dt-aim').textContent="目的・背景";$('dt-terrain').textContent="東遷・地形との関係";
+    $('works').textContent=L.works;$('aim').textContent=L.aim;$('terrain').textContent=L.terrain;
+    $('section-wrap').hidden=true;$('facility').hidden=true;$('depth').hidden=true;
+    $('kanda-section').hidden=!L.kanda;
+    if(L.materials){$('mat').hidden=false;$('mat-list').innerHTML=L.materials.map(m=>`<li><b>${m[0]}</b><span>${m[1]}</span></li>`).join("");}
+    $('src').textContent=L.src?("出典："+L.src):"";
+    showBanner(L,"land");
   }else{
     const f=FLOODS[it.j];card.classList.add('flood');
     const si=lastStepBefore(n);applyMap(si,STEPS[si],false,false);
@@ -670,9 +837,11 @@ function render(n,anim){
     // この洪水が生んだ工事
     STEPS.forEach(s=>{if(s.cause===f.id&&byId[s.id]!=null)$('links').appendChild(linkBtn('to-work',"この洪水が生んだ工事 → "+s.year+" "+s.title,s.id));});
     $('src').textContent=f.src?("出典："+f.src):"";
-    showBanner(f,true);
+    showBanner(f,"flood");
   }
-  $('prev').disabled=n===0;$('next').disabled=n===ITEMS.length-1;
+  const cur=objOf(it);
+  (cur.rel||[]).forEach(r=>{if(byId[r]==null||byId[r]<0)return;const t=ITEMS[byId[r]],o=objOf(t);const cls=t.type==="land"?"to-land":t.type==="flood"?"to-flood":"to-work";$('links').appendChild(linkBtn(cls,"関連 → "+o.year+" "+o.title,r));});
+  $('prev').disabled=nextVis(n,-1)<0;$('next').disabled=nextVis(n,1)<0;
   document.querySelectorAll('.timeline button').forEach(b=>{const k=parseInt(b.dataset.idx);b.setAttribute('aria-current',k===n?"true":"false");b.classList.toggle('done',k<n);});
   document.querySelectorAll('.timeline .yr').forEach(l=>{const k=parseInt(l.dataset.idx);l.classList.toggle('done',k<n);l.classList.toggle('cur',k===n);});
   document.querySelectorAll('.timeline').forEach(t=>{
@@ -681,27 +850,42 @@ function render(n,anim){
     t.querySelector('.rail-fill').style.width=w+"%";
   });
   prevIdx=n;
-  try{localStorage.setItem('tosen-item',String(n));}catch(e){}
+  try{localStorage.setItem('tosen-item3',String(n));}catch(e){}
 }
 // タイムライン（2本）
 function buildTL(el,list){
   el.classList.add('tall');
+  el.querySelectorAll('button,.yr').forEach(e=>e.remove());
   list.forEach((n,j)=>{
-    const it=ITEMS[n];const x=3+(j/(list.length-1))*94;
+    const it=ITEMS[n];const x=list.length>1?3+(j/(list.length-1))*94:50;
     const b=document.createElement('button');b.style.left=x+"%";b.dataset.idx=n;
-    const label=it.type==="step"?STEPS[it.i]:FLOODS[it.j];
+    const label=objOf(it);
     if(it.type==="flood")b.classList.add('fl');
-    b.setAttribute('aria-label',(it.type==="flood"?"洪水 ":"工事 ")+label.year+" "+label.title);
+    if(it.type==="land")b.classList.add('ld');
+    b.setAttribute('aria-label',({step:"工事 ",flood:"洪水 ",land:"土地 "})[it.type]+label.year+" "+label.title);
     b.addEventListener('click',()=>{idx=n;render(idx,true);});el.appendChild(b);
-    const l=document.createElement('span');l.className='yr'+(j%2?' lo':'');l.dataset.idx=n;l.style.left=x+"%";l.textContent=String(label.year).split(/[ \/]/)[0];el.appendChild(l);
+    const l=document.createElement('span');l.className='yr'+(j%2?' lo':'');l.dataset.idx=n;l.style.left=x+"%";l.textContent=String(label.year).split(/[ \/–〜-]/)[0];el.appendChild(l);
   });
 }
-buildTL($('timeline'),ITEMS.map((it,n)=>n).filter(n=>ITEMS[n].part===1));
-buildTL($('timeline2'),ITEMS.map((it,n)=>n).filter(n=>ITEMS[n].part===2));
-$('prev').addEventListener('click',()=>{if(idx>0){idx--;render(idx,false);}});
-$('next').addEventListener('click',()=>{if(idx<ITEMS.length-1){idx++;render(idx,true);}});
+function rebuildTL(){
+  buildTL($('timeline'),ITEMS.map((it,n)=>n).filter(n=>ITEMS[n].part===1&&vis(n)));
+  buildTL($('timeline2'),ITEMS.map((it,n)=>n).filter(n=>ITEMS[n].part===2&&vis(n)));
+}
+function syncChips(){document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',FILTER[c.dataset.t]));try{localStorage.setItem('tosen-filter',JSON.stringify(FILTER));}catch(e){}}
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+  const t=c.dataset.t;const onCount=Object.values(FILTER).filter(Boolean).length;
+  if(FILTER[t]&&onCount===1)return;
+  FILTER[t]=!FILTER[t];syncChips();rebuildTL();
+  if(!vis(idx)){let k=nextVis(idx,1);if(k<0)k=nextVis(idx,-1);idx=k;}
+  render(idx,false);
+}));
+try{const f=JSON.parse(localStorage.getItem('tosen-filter')||"null");if(f){Object.assign(FILTER,f);if(!Object.values(FILTER).some(Boolean))FILTER.step=true;}}catch(e){}
+syncChips();rebuildTL();
+$('prev').addEventListener('click',()=>{const k=nextVis(idx,-1);if(k>=0){idx=k;render(idx,false);}});
+$('next').addEventListener('click',()=>{const k=nextVis(idx,1);if(k>=0){idx=k;render(idx,true);}});
 document.addEventListener('keydown',e=>{if(e.key==="ArrowRight")$('next').click();if(e.key==="ArrowLeft")$('prev').click();});
-try{const saved=parseInt(localStorage.getItem('tosen-item'));if(!isNaN(saved)&&saved>=0&&saved<ITEMS.length)idx=saved;}catch(e){}
+try{const saved=parseInt(localStorage.getItem('tosen-item3'));if(!isNaN(saved)&&saved>=0&&saved<ITEMS.length)idx=saved;}catch(e){}
+if(!vis(idx)){const k=nextVis(-1,1);idx=k<0?0:k;}
 // 自動再生（録画用）
 let apTimer=null,apRAF=null;
 const prog=$('progress');
@@ -710,14 +894,14 @@ function scheduleNext(sec){
   const t0=performance.now();
   const tick=()=>{const r=Math.min(1,(performance.now()-t0)/sec);prog.style.width=(r*100)+"%";if(apTimer)apRAF=requestAnimationFrame(tick);};
   apRAF=requestAnimationFrame(tick);
-  apTimer=setTimeout(()=>{if(idx>=ITEMS.length-1){stopAP();return;}idx++;render(idx,true);scheduleNext(sec);},sec);
+  apTimer=setTimeout(()=>{const k=nextVis(idx,1);if(k<0){stopAP();return;}idx=k;render(idx,true);scheduleNext(sec);},sec);
 }
 $('autoplay').addEventListener('click',e=>{
   e.preventDefault();
   if(apTimer){stopAP();return;}
   const sec=parseInt($('ap-sec').value)*1000;
   $('autoplay').textContent="■ 停止";$('autoplay').classList.add('on');document.body.classList.add('playing');
-  idx=0;render(idx,true);window.scrollTo({top:0});
+  idx=nextVis(-1,1);render(idx,true);window.scrollTo({top:0});
   scheduleNext(sec);
 });
 document.querySelectorAll('.timeline').forEach(t=>t.addEventListener('click',()=>{if(apTimer)stopAP();}));
