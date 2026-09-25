@@ -59,6 +59,26 @@ header.show h1,header.show p{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){header h1,header p{transition:none}}
 .map-wrap{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding:4px 8px 6px;max-width:760px;margin:0 auto}
 svg.map{display:block;width:100%;height:auto;border-radius:6px;background:var(--sea)}
+/* 地図の大きさを画面の高さに合わせて制限（見切れ防止） */
+.map-box{width:min(100%, calc(46svh * 600 / 440));margin:0 auto}
+.col-left{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg)}
+.col-left .map-wrap{position:static}
+@media (min-width:960px){
+  body{font-size:15px}
+  header{max-width:none;padding:14px 28px 8px}
+  .layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(360px,1fr);gap:0 24px;padding:0 20px 0 12px;align-items:start}
+  .col-left{position:sticky;top:0;height:100svh;display:flex;flex-direction:column}
+  .col-left .map-wrap{position:static;max-width:none;margin:0;padding:4px 0 6px;flex:1;display:flex;flex-direction:column;justify-content:flex-start}
+  .map-box{width:min(100%, calc((100svh - 230px) * 600 / 440))}
+  .col-right{padding-top:4px}
+  .col-right .card{max-width:none;margin:4px 0 0;border-radius:10px 10px 0 0;min-height:auto}
+  .col-right .legend,.col-right footer{max-width:none;margin:0}
+  .col-right footer{border-radius:0 0 10px 10px;margin-bottom:24px}
+}
+@media (max-height:520px) and (orientation:landscape){
+  .col-left{position:static}
+  .map-box{width:min(100%, calc(80svh * 600 / 440))}
+}
 .map text{font-family:var(--sans);font-size:9.5px;fill:var(--label);paint-order:stroke;stroke:var(--low);stroke-width:2.5px;stroke-linejoin:round;pointer-events:none}
 .map text.sea{fill:#345;stroke:none;font-family:var(--serif);font-size:10px;letter-spacing:.15em}
 .map text.big{font-size:11px;font-weight:500}
@@ -188,6 +208,8 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
   <p id="h-sum"></p>
 </header>
 
+<div class="layout">
+<div class="col-left">
 <div class="map-wrap">
 <div class="map-box">
 <svg class="map" viewBox="0 0 600 440" role="img" aria-labelledby="mapTitle">
@@ -344,6 +366,8 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
 </div>
 </div>
 
+</div>
+<div class="col-right">
 <section class="card" aria-live="polite">
   <div class="step-head">
     <div><div class="year" id="year"></div><div class="era" id="era"></div></div>
@@ -400,6 +424,8 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
   <small>標高帯・河道・香取海の範囲はいずれも概略。位置関係を伝えるための模式図で、縮尺や細部は正確ではない。</small>
 </div>
 <footer>出典：国土交通省関東地方整備局 利根川上流河川事務所「利根川の東遷」、千葉県立関宿城博物館、松浦茂樹「近世後半の権現堂堤強化と赤堀川拡幅」（水利科学 65-3）、Wikipedia「利根川東遷事業」「赤堀川 (茨城県)」「岩淵水門」「首都圏外郭放水路」、荒川下流河川事務所「荒川放水路の開削」、水資源機構 利根川河口堰資料、荒川上流河川事務所「寛保2年の洪水」、利根川下流河川事務所「昭和22年洪水記録」、国立公文書館「カスリーン台風」、内閣府防災「1947カスリーン台風」報告書、千葉県「北印旛沼の堤防決壊について」（2026年9月23日）ほか。</footer>
+</div>
+</div>
 
 <script>
 (function(){
