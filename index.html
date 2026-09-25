@@ -99,6 +99,10 @@ svg.map{display:block;width:100%;height:auto;border-radius:6px;background:var(--
 .flood-layer .flow{fill:none;stroke:var(--flood);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.7;stroke-dasharray:1 1;animation:draw 1.6s ease-out forwards}
 .flood-layer .breach{stroke:var(--flood-ink);stroke-width:2.2;stroke-linecap:round}
 .flood-layer .reach{fill:var(--flood-ink)}
+.flood-layer .levee{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round}
+.flood-layer .levee.held{stroke:var(--accent)}
+.flood-layer .pond{fill:var(--flood);opacity:.5}
+.flood-layer text.lv{fill:var(--ink);font-size:7px}
 .flood-layer text{fill:var(--flood-ink);font-size:8px;stroke:var(--low);stroke-width:2.2px;paint-order:stroke}
 .timeline button.fl{border-radius:0;background:var(--flood-ink);clip-path:polygon(50% 0,100% 100%,0 100%);border:none;width:16px;height:14px;top:5px}
 .timeline button.fl[aria-current="true"]{background:var(--flood-ink);width:20px;height:17px;top:3px;filter:drop-shadow(0 0 3px var(--flood))}
@@ -413,10 +417,16 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
     <text class="sea" id="bayname" x="236" y="410">江 戸 湾</text>
     <text class="sea" x="546" y="426">太 平 洋</text>
   </g>
+  <!-- 江戸城（三つ葉葵） -->
+  <g id="edojo" transform="translate(214 343)">
+    <circle r="9.2" fill="var(--panel)" stroke="var(--ink)" stroke-width=".9"/>
+    <g transform="scale(.72)"><g transform="rotate(0)"><path d="M0 -2.2 C-1.2 -1 -5.4 -1.6 -5.6 -5.2 C-5.8 -8 -2.8 -9.6 0 -10.6 C2.8 -9.6 5.8 -8 5.6 -5.2 C5.4 -1.6 1.2 -1 0 -2.2 Z" fill="var(--ink)"/><path d="M0 -2.6 L0 -9.6 M0 -4 L-3.6 -7.4 M0 -4 L3.6 -7.4 M0 -3 L-4.4 -4.2 M0 -3 L4.4 -4.2" fill="none" stroke="var(--panel)" stroke-width=".55" stroke-linecap="round"/></g><g transform="rotate(120)"><path d="M0 -2.2 C-1.2 -1 -5.4 -1.6 -5.6 -5.2 C-5.8 -8 -2.8 -9.6 0 -10.6 C2.8 -9.6 5.8 -8 5.6 -5.2 C5.4 -1.6 1.2 -1 0 -2.2 Z" fill="var(--ink)"/><path d="M0 -2.6 L0 -9.6 M0 -4 L-3.6 -7.4 M0 -4 L3.6 -7.4 M0 -3 L-4.4 -4.2 M0 -3 L4.4 -4.2" fill="none" stroke="var(--panel)" stroke-width=".55" stroke-linecap="round"/></g><g transform="rotate(240)"><path d="M0 -2.2 C-1.2 -1 -5.4 -1.6 -5.6 -5.2 C-5.8 -8 -2.8 -9.6 0 -10.6 C2.8 -9.6 5.8 -8 5.6 -5.2 C5.4 -1.6 1.2 -1 0 -2.2 Z" fill="var(--ink)"/><path d="M0 -2.6 L0 -9.6 M0 -4 L-3.6 -7.4 M0 -4 L3.6 -7.4 M0 -3 L-4.4 -4.2 M0 -3 L4.4 -4.2" fill="none" stroke="var(--panel)" stroke-width=".55" stroke-linecap="round"/></g><circle r="1.3" fill="var(--ink)"/></g>
+    <text x="-38" y="3.5" style="font-size:8.5px;font-weight:500">江戸城</text>
+  </g>
   <!-- 拡大ルーペ（神田川） -->
   <g id="lens">
-    <line x1="172" y1="338" x2="220" y2="345" stroke="var(--ink)" stroke-width=".8" stroke-dasharray="2 2"/>
-    <circle cx="227" cy="346" r="7" fill="none" stroke="var(--ink)" stroke-width="1"/>
+    <line x1="172" y1="338" x2="203" y2="342" stroke="var(--ink)" stroke-width=".8" stroke-dasharray="2 2"/>
+    <circle cx="214" cy="343" r="12" fill="none" stroke="var(--ink)" stroke-width="1"/>
     <g transform="translate(100 336) scale(1.2)">
       <g clip-path="url(#lensclip)">
         <circle r="60" fill="var(--low)"/>
@@ -429,7 +439,7 @@ footer{max-width:760px;margin:0 auto;padding:12px 18px 30px;font-size:.75rem;col
         <path class="oldriver" d="M-60 -24 L-6 -22 C-4 -10 -6 2 -8 8"/>
         <path class="river" style="stroke-width:2.2" d="M-60 -24 L-6 -22"/>
         <path class="newriver" pathLength="1" d="M-6 -22 L20 -22 C30 -22 38 -22 45 -22"/>
-        <rect x="-26" y="-6" width="7" height="7" fill="var(--ink)"/>
+        <g transform="translate(-22.5 -2.5)"><circle r="6.4" fill="var(--panel)" stroke="var(--ink)" stroke-width=".6"/><g transform="scale(.5)"><g transform="rotate(0)"><path d="M0 -2.2 C-1.2 -1 -5.4 -1.6 -5.6 -5.2 C-5.8 -8 -2.8 -9.6 0 -10.6 C2.8 -9.6 5.8 -8 5.6 -5.2 C5.4 -1.6 1.2 -1 0 -2.2 Z" fill="var(--ink)"/><path d="M0 -2.6 L0 -9.6 M0 -4 L-3.6 -7.4 M0 -4 L3.6 -7.4 M0 -3 L-4.4 -4.2 M0 -3 L4.4 -4.2" fill="none" stroke="var(--panel)" stroke-width=".55"/></g><g transform="rotate(120)"><path d="M0 -2.2 C-1.2 -1 -5.4 -1.6 -5.6 -5.2 C-5.8 -8 -2.8 -9.6 0 -10.6 C2.8 -9.6 5.8 -8 5.6 -5.2 C5.4 -1.6 1.2 -1 0 -2.2 Z" fill="var(--ink)"/><path d="M0 -2.6 L0 -9.6 M0 -4 L-3.6 -7.4 M0 -4 L3.6 -7.4 M0 -3 L-4.4 -4.2 M0 -3 L4.4 -4.2" fill="none" stroke="var(--panel)" stroke-width=".55"/></g><g transform="rotate(240)"><path d="M0 -2.2 C-1.2 -1 -5.4 -1.6 -5.6 -5.2 C-5.8 -8 -2.8 -9.6 0 -10.6 C2.8 -9.6 5.8 -8 5.6 -5.2 C5.4 -1.6 1.2 -1 0 -2.2 Z" fill="var(--ink)"/><path d="M0 -2.6 L0 -9.6 M0 -4 L-3.6 -7.4 M0 -4 L3.6 -7.4 M0 -3 L-4.4 -4.2 M0 -3 L4.4 -4.2" fill="none" stroke="var(--panel)" stroke-width=".55"/></g></g></g>
         <path fill="none" stroke="var(--land-ink)" stroke-width="1" stroke-dasharray="2 1.5" d="M8 -12 C8 0 2 10 -4 18"/>
         <text x="-36" y="-36">本郷台地</text>
         <text x="-2" y="-30">湯島台</text>
@@ -633,16 +643,16 @@ const FLOODS=[
  {id:"f1742",summary:"荒川・利根川が氾濫、江戸で死者3,900余",part:1,after:6,year:"1742",era:"寛保2年",title:"寛保の大洪水 — 江戸時代最大",
   works:"7月末から6日6晩降り続いた雨で荒川・利根川がともに氾濫し、関東一円が浸水した。長瀞の岩壁に刻まれた洪水位は現在の平水面から約20m上。江戸では本所・深川・亀戸の被害が最も甚しく、多数の溺死者が出たと『東京市史稿』が記す。",
   aim:"死者3,900余人、救助された者18万6千人と伝えられる（荒川上流河川事務所）。大谷貞夫『江戸幕府治水施策史の研究』は「江戸時代を通じて最大」と評価している。",
-  terrain:"東遷から約90年。利根川を東へ振ってもなお、荒川と利根川上流の水は江戸の低地へ集まった。この後、権現堂堤などの堤防強化が繰り返される時代に入る。",
-  breaches:[[120,172],[164,160]],flows:["M126 178 C150 200 200 240 232 300 C236 320 236 335 236 342"],
-  reach:[{x:228,y:340,l:"浅草 約2.1m"},{x:252,y:346,l:"亀戸 約3.7m"}],
+  terrain:"江戸の治水は、氾濫を前提に「あふれても被害が小さくなる」よう組まれていた。荒川下流では右岸の日本堤と左岸の隅田堤が二重の堤となって洪水を漏斗状に遊水させ、江戸城側の日本堤は江戸時代を通じて一度も決壊しなかった。この洪水でも、堤が切れて広く水に浸かったのは川の東の本所・深川・亀戸。ただし浅草・下谷でも多くの死者が出ており、守りは完全ではない。神田川などの中小河川もあふれ、小日向（今の文京区）では床上5尺の浸水が記録されている。",
+  breaches:[[120,172],[164,160]],levees:true,flows:["M126 178 C150 200 196 250 226 302","M236 332 C244 334 252 338 262 343"],
+  reach:[{x:231,y:337,l:"浅草 約2.1m",lx:192,ly:376},{x:252,y:344,l:"亀戸 約3.7m",lx:250,ly:376}],
   depth:[["浅草",2.1],["亀戸",3.7],["長瀞（岩壁）",20]],
-  src:"荒川上流河川事務所「寛保2年の洪水」、関東地方整備局資料（東京市史稿・玉村町誌の引用）"},
+  src:"荒川上流河川事務所「寛保2年の洪水」、関東地方整備局資料（東京市史稿・玉村町誌の引用）、末次忠司「江戸時代の水管理技術」（水利科学61-5）、国立公文書館「天下大変—風水害」"},
  {id:"f1786",summary:"噴火で上がった河床、権現堂堤が切れ江戸へ",part:1,after:6,year:"1786",era:"天明6年",title:"天明の大洪水 — 浅間山噴火の3年後",
   works:"天明3年（1783）の浅間山大噴火で大量の火山灰・土砂が利根川に流れ込み、河床が上昇していた。天明6年7月の出水で権現堂堤が決壊し、氾濫水は中川低地を南下。日本堤に守られていた隅田川右岸の浅草・日本橋にまで溢れた。",
   aim:"江戸三大洪水の一つ。この洪水と享和2年（1802）の決壊が、享和3年の権現堂堤大強化、そして文化6年（1809）の赤堀川拡幅につながる。",
   terrain:"火山灰で河床が上がった川は、同じ雨でも堤防を越えやすくなる。東遷で東へ分けたはずの水が、権現堂川から再び江戸へ向かった。",
-  breaches:[[216,190]],flows:["M216 192 C226 220 236 260 238 300 C238 320 234 335 232 345"],
+  breaches:[[216,190]],levees:true,flows:["M216 192 C226 220 236 260 238 300 C238 320 234 335 232 345"],
   reach:[{x:226,y:338,l:"浅草・日本橋"}],depth:[],
   src:"松浦茂樹「近世後半の権現堂堤強化と赤堀川拡幅」（水利科学65-3）、利根川上流河川事務所資料"},
  {id:"f1846",summary:"堤防決壊、三たび江戸下町が水に浸かる",part:1,after:7,year:"1846",era:"弘化3年",title:"弘化の大洪水",
@@ -780,7 +790,12 @@ function drawFlood(f){
   if(f.area)h+=`<path class="area" d="${f.area}"/>`;
   (f.flows||[]).forEach(d=>h+=`<path class="flow" pathLength="1" d="${d}"/>`);
   (f.breaches||[]).forEach(([x,y])=>h+=`<line class="breach" x1="${x-4}" y1="${y-4}" x2="${x+4}" y2="${y+4}"/><line class="breach" x1="${x-4}" y1="${y+4}" x2="${x+4}" y2="${y-4}"/>`);
-  (f.reach||[]).forEach(r=>h+=`<circle class="reach" cx="${r.x}" cy="${r.y}" r="2.6"/><text x="${r.x+5}" y="${r.y+3}">${r.l}</text>`);
+  if(f.levees){
+    h+=`<path class="pond" d="M212 300 L250 298 L243 315 L236 331 L230 331 L221 315 Z"/>`;
+    h+=`<path class="levee held" d="M219 314 L229 332"/><path class="levee" d="M244 313 L236 332"/>`;
+    h+=`<text class="lv" x="160" y="322">日本堤（城側）</text><text class="lv" x="247" y="318">隅田堤</text><text x="223" y="309" style="font-size:6.5px">遊水</text>`;
+  }
+  (f.reach||[]).forEach(r=>h+=`<circle class="reach" cx="${r.x}" cy="${r.y}" r="2.6"/><text x="${r.lx!=null?r.lx:r.x+5}" y="${r.ly!=null?r.ly:r.y+3}">${r.l}</text>`);
   g.innerHTML=h;
 }
 function linkBtn(cls,label,target){const b=document.createElement('button');b.className=cls;b.textContent=label;b.addEventListener('click',()=>{idx=byId[target];if(!vis(idx)){FILTER[ITEMS[idx].type]=true;syncChips();rebuildTL();}render(idx,true);window.scrollTo({top:0,behavior:'smooth'});});return b;}
